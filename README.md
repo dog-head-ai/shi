@@ -82,3 +82,10 @@ def updater(batch_size):
 train_ch3(net, train_iter, test_iter, cross_entropy, num_epochs, updater)
 
 predict_ch3(net, test_iter)
+from mxnet import gluon, np, npx
+from d2l import mxnet as d2l
+
+npx.set_np()
+
+batch_size = 256
+train_iter, test_iter = d2l.load_data_fashion_mnist(batch_size)
