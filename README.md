@@ -101,3 +101,21 @@ for param in params:
     param.attach_grad()
     def l2_penalty(w):
     return (w**2).sum() / 2
+def train(lambd):
+    w, b = init_params()
+    net, loss = lambda X: d2l.linreg(X, w, b), d2l.squared_loss
+    num_epochs, lr = 100, 0.003
+    animator = d2l.Animator(xlabel='epochs', ylabel='loss', yscale='log',
+                            xlim=[5, num_epochs], legend=['train', 'test'])
+    for epoch in range(num_epochs):
+        for X, y in train_iter:
+            with autograd.record():
+                # 增加了L2范数惩罚项，
+                # 广播机制使l2_penalty(w)成为一个长度为batch_size的向量
+                l = loss(net(X), y) + lambd * l2_penalty(w)
+            l.backward()
+            d2l.sgd([w, b], lr, batch_size)
+        if (epoch + 1) % 5 == 0:
+            animator.add(epoch + 1, (d2l.evaluate_loss(net, train_iter, loss),
+                                     d2l.evaluate_loss(net, test_iter, loss)))
+    print('w的L2范数是：', np.linalg.norm(w))
