@@ -119,3 +119,4 @@ def train(lambd):
             animator.add(epoch + 1, (d2l.evaluate_loss(net, train_iter, loss),
                                      d2l.evaluate_loss(net, test_iter, loss)))
     print('w的L2范数是：', np.linalg.norm(w))
+train(lambd=0)
