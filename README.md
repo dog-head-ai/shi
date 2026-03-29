@@ -99,3 +99,5 @@ params = [W1, b1, W2, b2]
 
 for param in params:
     param.attach_grad()
+    def l2_penalty(w):
+    return (w**2).sum() / 2
