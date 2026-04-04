@@ -150,3 +150,21 @@ def download(name, cache_dir=os.path.join('..', 'data')):  #@save
     with open(fname, 'wb') as f:
         f.write(r.content)
     return fname
+    def download_extract(name, folder=None):  #@save
+    """下载并解压zip/tar文件"""
+    fname = download(name)
+    base_dir = os.path.dirname(fname)
+    data_dir, ext = os.path.splitext(fname)
+    if ext == '.zip':
+        fp = zipfile.ZipFile(fname, 'r')
+    elif ext in ('.tar', '.gz'):
+        fp = tarfile.open(fname, 'r')
+    else:
+        assert False, '只有zip/tar文件可以被解压缩'
+    fp.extractall(base_dir)
+    return os.path.join(base_dir, folder) if folder else data_dir
+
+def download_all():  #@save
+    """下载DATA_HUB中的所有文件"""
+    for name in DATA_HUB:
+        download(name)
