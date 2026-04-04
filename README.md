@@ -120,3 +120,12 @@ def train(lambd):
                                      d2l.evaluate_loss(net, test_iter, loss)))
     print('w的L2范数是：', np.linalg.norm(w))
 train(lambd=0)
+import hashlib
+import os
+import tarfile
+import zipfile
+import requests
+
+#@save
+DATA_HUB = dict()
+DATA_URL = 'http://d2l-data.s3-accelerate.amazonaws.com/'
